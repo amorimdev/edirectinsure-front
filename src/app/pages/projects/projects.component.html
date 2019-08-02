@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<div class="row mt-5 ml-3 mr-3 mb-5">
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-5" *ngFor="let project of projects; let projectIndex = index">
+    <div class="card">
+      <div class="card-header">
+        <form #projectEditForm="ngForm" (ngSubmit)="onProjectEditFormSubmit(projectEditForm, project._id)" class="justify-content-between d-flex">
+          <div *ngIf="!project.editing" class="align-middle">{{ project.name }}</div>
+          <div *ngIf="project.editing" class="w-75">
+            <input name="name" type="text" class="form-control" placeholder="Project name" required="required" ngModel>
+          </div>
+          <div>
+            <a href="javascript:void(0)" *ngIf="project.editing && projectEditForm.valid" (click)="saveProject(projectEditForm, project)" class="mr-2"><fa-icon [icon]="['fas', 'save']"></fa-icon></a>
+            <a href="javascript:void(0)" *ngIf="!project.editing" (click)="editProject(projectEditForm, project)" class="mr-2"><fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon></a>
+            <a href="javascript:void(0)" (click)="deleteProject(project._id)"><fa-icon [icon]="['far', 'trash-alt']"></fa-icon></a>
+          </div>
+        </form>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">To Do</h5>
+        <div class="card-text">
+          <div *ngIf="!project.openTasks.length">
+            Empty
+          </div>
+          <div *ngFor="let task of project.openTasks; let taskIndex = index">
+            <form #taskEditForm="ngForm" (ngSubmit)="onTaskEditFormSubmit(taskEditForm, task._id)" class="justify-content-between d-flex">
+              <div *ngIf="!task.editing" class="form-check">
+                <input (change)="setTaskClosed(task._id)" class="form-check-input" type="checkbox" [id]="'open-' + projectIndex + '-' + taskIndex">
+                <label class="form-check-label btn-link" [for]="'open-' + projectIndex + '-' + taskIndex">
+                  {{ task.description }}
+                </label>
+              </div>
+
+              <div *ngIf="task.editing" class="w-75">
+                <input name="description" type="text" class="form-control" placeholder="Task description" required="required" ngModel>
+              </div>
+
+              <div>
+                <a href="javascript:void(0)" *ngIf="task.editing && taskEditForm.valid" (click)="saveTask(taskEditForm, task)" class="mr-2"><fa-icon [icon]="['fas', 'save']"></fa-icon></a>
+                <a href="javascript:void(0)" *ngIf="!task.editing" (click)="editTask(taskEditForm, task)" class="mr-2"><fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon></a>
+                <a href="javascript:void(0)" (click)="deleteTask(task._id)"><fa-icon [icon]="['far', 'trash-alt']"></fa-icon></a>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h5 class="card-title mt-3">Done</h5>
+        <div class="card-text">
+          <div *ngIf="!project.closedTasks.length">
+            Empty
+          </div>
+          <div class="form-check" *ngFor="let task of project.closedTasks; let taskIndex = index" data-toggle="tooltip" data-placement="right" title="{{ task.updatedAt | date: 'medium' }}">
+            <input class="form-check-input" type="checkbox" [id]="'closed-' + projectIndex + '-' + taskIndex" checked="checked" disabled="disabled">
+            <label class="form-check-label" [for]="'closed-' + projectIndex + '-' + taskIndex">
+              {{ task.description }}
+            </label>
+          </div>
+        </div>
+        <hr>
+        <form #taskForm="ngForm" (ngSubmit)="onTaskFormSubmit(taskForm, project._id)" class="form-inline justify-content-between">
+          <div class="row form-group col-9">
+            <input name="description" type="text" class="form-control w-100" placeholder="Task description" required="required" ngModel>
+          </div>
+          <button [disabled]="!taskForm.valid" type="submit" class="btn btn-success col-3">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+    <div class="card bg-light">
+      <div class="card-body" style="height: 15rem; padding: 3.5rem">
+        <div class="card-text justify-content-center align-middle">
+          <h4 class="text-center">Create a new project</h4>
+          <form #projectForm="ngForm" (ngSubmit)="onProjectFormSubmit(projectForm)">
+            <div class="form-group">
+              <input name="name" type="text" class="form-control w-100" placeholder="Project name" required="required" ngModel>
+            </div>
+            <button [disabled]="!projectForm.valid" type="submit" class="btn btn-info w-100">Create Project</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
