@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ServicesModule } from './services/services.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -18,7 +17,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
   imports: [
     BrowserModule,
     HttpClientModule,
-    ServicesModule.forRoot(),
     SharedModule.forRoot(),
     AppRoutingModule
   ],

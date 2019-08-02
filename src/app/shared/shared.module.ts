@@ -6,7 +6,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
-import { ServicesModule } from '../services/services.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
@@ -15,8 +14,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule,
-    ServicesModule
+    FontAwesomeModule
   ],
   exports: [
     FontAwesomeModule,
